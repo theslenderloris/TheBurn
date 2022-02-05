@@ -1,26 +1,26 @@
-import javax.print.DocFlavor;
-
-abstract public class Room {
+public class Room {
 
     //object properties - Strings
 
     public String roomTitle;
     public String roomDesc;
+    public String roomTag;
 
 
     //exits
-    public Ship upExit;
-    public Ship downExit;
-    public int leftExit;
-    public int rightExit;
-    public int forExit;
-    public int backExit;
+    public Room upExit;
+    public Room downExit;
+    public Room leftExit;
+    public Room rightExit;
+    public Room forExit;
+    public Room backExit;
 
 
     //constructor
-    public Room(String roomTitle, String roomDesc, Ship upExit, Ship downExit, int leftExit, int rightExit, int forExit, int backExit){
+    public Room(String roomTitle, String roomDesc, String roomTag, Room upExit, Room downExit, Room leftExit, Room rightExit, Room forExit, Room backExit){
         this.roomTitle = roomTitle;
         this.roomDesc = roomDesc;
+        this.roomTag = roomTag;
         this.upExit = upExit;
         this.downExit = downExit;
         this.leftExit = leftExit;
@@ -39,28 +39,58 @@ abstract public class Room {
         return roomDesc;
     }
 
-    public Ship getUpExit(){
+    public String getRoomTag(){
+        return roomTag;
+    }
+
+    public Room getUpExit(){
         return upExit;
     }
 
-    public Ship getDownExit(){
+    public Room getDownExit(){
         return downExit;
     }
 
-    public int getLeftExit(){
+    public Room getLeftExit(){
         return leftExit;
     }
 
-    public int getRightExit(){
+    public Room getRightExit(){
         return  rightExit;
     }
 
-    public int getForExit(){
+    public Room getForExit(){
         return forExit;
     }
 
-    public int getBackExit(){
+    public Room getBackExit(){
         return backExit;
+    }
+
+    // setters
+
+    public void setUpExit(Room upExit){
+        this.upExit = upExit;
+    }
+
+    public void setDownExit(Room downExit){
+        this.downExit = downExit;
+    }
+
+    public void setLeftExit(Room leftExit){
+        this.leftExit = leftExit;
+    }
+
+    public void setRightExit(Room rightExit) {
+        this.rightExit = rightExit;
+    }
+
+    public void setForExit(Room forExit){
+        this.forExit = forExit;
+    }
+
+    public void setBackExit(Room backExit){
+        this.backExit = backExit;
     }
 
 }
