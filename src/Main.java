@@ -42,6 +42,7 @@ public class Main {
 
         Room currentLocation = room1;
         System.out.println(currentLocation.roomTitle + ": " + currentLocation.roomDesc);
+        System.out.println(getRoomCords(currentLocation));
 
         // scanner stuff
         Scanner useInput = new Scanner(System.in);
@@ -49,18 +50,36 @@ public class Main {
         String input = null;
 
         while (input != "exit") {
-            System.out.println("Where to go?");
-            input = useInput.nextLine();
-            currentLocation = RoomMove(currentLocation, input);
+            input = getUserDirection(currentLocation);
+
+            try {
+                currentLocation = RoomMove(currentLocation, input);
+            }
+            catch (NullPointerException ex){
+                System.out.println("That is not a valid direction!");
+            }
             System.out.println(currentLocation.roomTitle + ": " + currentLocation.roomDesc);
+            System.out.println(getRoomCords(currentLocation));
         }
 
 
     }
 
+    //Possible super input method to parse commands (goto, drop, pickup)
+
+    //User Direction input Method
+
+    public static String getUserDirection(Room currentLocation){
+        Scanner useInput = new Scanner(System.in);
+        System.out.println(">> ");
+        String input = useInput.nextLine();
+        return input;
+    }
+
+
     //Room Movement Function
 
-    public static Room RoomMove(Room currentLocation, String newLocation) {
+    public static Room RoomMove(Room currentLocation, String newLocation) throws NullPointerException {
         if (newLocation.equals("up")) {
             currentLocation = currentLocation.upExit;
 
@@ -80,6 +99,37 @@ public class Main {
             currentLocation = currentLocation.backExit;
 
         } return currentLocation;
+
+    }
+
+    public static String getRoomCords(Room currentLocation){
+        String cords = "";
+
+        if (currentLocation.upExit != null){
+            cords = cords + currentLocation.upExit.getRoomTitle() + " is above you, ";
+        } else{}
+
+        if (currentLocation.downExit != null) {
+            cords = cords + currentLocation.downExit.getRoomTitle() + " is below you, ";
+        } else{}
+
+        if (currentLocation.leftExit != null) {
+            cords = cords + currentLocation.leftExit.getRoomTitle() + " is to your left, ";
+        } else{}
+
+        if (currentLocation.rightExit != null) {
+            cords = cords + currentLocation.rightExit.getRoomTitle() + " is to your right, ";
+        } else{}
+
+        if (currentLocation.forExit != null) {
+            cords = cords + currentLocation.forExit.getRoomTitle() + " is in front of you, ";
+        } else{}
+
+        if (currentLocation.backExit != null) {
+            cords = cords + currentLocation.backExit.getRoomTitle() + " is behind you ";
+        } else{}
+        return cords;
+
 
     }
 
