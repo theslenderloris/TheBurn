@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Room {
 
     //object properties - Strings
@@ -15,9 +17,13 @@ public class Room {
     public Room forExit;
     public Room backExit;
 
+    // storage container
+
+    public ArrayList<Item> storage;
+
 
     //constructor
-    public Room(String roomTitle, String roomDesc, String roomTag, Room upExit, Room downExit, Room leftExit, Room rightExit, Room forExit, Room backExit){
+    public Room(String roomTitle, String roomDesc, String roomTag, Room upExit, Room downExit, Room leftExit, Room rightExit, Room forExit, Room backExit, ArrayList<Item> storage){
         this.roomTitle = roomTitle;
         this.roomDesc = roomDesc;
         this.roomTag = roomTag;
@@ -91,6 +97,10 @@ public class Room {
 
     public void setBackExit(Room backExit){
         this.backExit = backExit;
+    }
+
+    public void setStorage(ArrayList<Item> storage){
+        this.storage = storage;
     }
 
 }

@@ -5,14 +5,50 @@ public class Main {
         // protoyping driver
 
         // create rooms
-        Room room1 = new Room("Command Deck", "You are on the Command Deck", null, null, null, null, null, null, null);
-        Room room2 = new Room("Galley", "You are on the Galley, grab some food?", null, null, null, null, null, null, null);
-        Room room3 = new Room("Crew Quarters", "You are on the Crew Deck, sleep?", null, null, null, null, null, null, null);
-        Room room4 = new Room("Head", "You are at the head, take a shit?", null, null, null, null, null, null, null);
-        Room room5 = new Room("Port Airlock ", "Ready for the Expanse of space?", null, null, null, null, null, null, null);
-        Room room6 = new Room("Machine Shop", "You are in the Machine Shop, where is Amos?", null, null, null, null, null, null, null);
-        Room room7 = new Room("Starboard Airlock", "You are in the Starboard Airlock, Ready for the Expanse?", null, null, null, null, null, null, null);
-        Room room8 = new Room("The Core", "You are at the Core, you shouldn't be here unless you need some Rads", null, null, null, null, null, null, null);
+        Room room1 = new Room("Command Deck", "You are on the Command Deck", "room1", null, null, null, null, null, null, null);
+        Room room2 = new Room("Galley", "You are on the Galley, grab some food?", null, null, null, null, null, null, null, null);
+        Room room3 = new Room("Crew Quarters", "You are on the Crew Deck, sleep?", null, null, null, null, null, null, null,null);
+        Room room4 = new Room("Head", "You are at the head, take a shit?", null, null, null, null, null, null, null, null);
+        Room room5 = new Room("Port Airlock ", "Ready for the Expanse of space?", null, null, null, null, null, null, null, null);
+        Room room6 = new Room("Machine Shop", "You are in the Machine Shop, where is Amos?", null, null, null, null, null, null, null, null);
+        Room room7 = new Room("Starboard Airlock", "You are in the Starboard Airlock, Ready for the Expanse?", null, null, null, null, null, null, null, null);
+        Room room8 = new Room("The Core", "You are at the Core, you shouldn't be here unless you need some Rads", null, null, null, null, null, null, null, null);
+
+
+        // create items and item array
+
+        Item oxygenBottle = new Item("Oxygen Bottle", "got some air in there");
+        Item helmet = new Item("Space Helmet", "its a helmet");
+
+        ArrayList<Item> room1Store = new ArrayList<Item>();
+        ArrayList<Item> room2Store = new ArrayList<Item>();
+        ArrayList<Item> room3Store = new ArrayList<Item>();
+        ArrayList<Item> room4Store = new ArrayList<Item>();
+        ArrayList<Item> room5Store = new ArrayList<Item>();
+        ArrayList<Item> room6Store = new ArrayList<Item>();
+        ArrayList<Item> room7Store = new ArrayList<Item>();
+        ArrayList<Item> room8Store = new ArrayList<Item>();
+
+
+        // assign items to rooms
+
+
+        room1Store.add(oxygenBottle);
+        room5Store.add(helmet);
+
+
+        // set room storage container
+
+        room1.setStorage(room1Store);
+        room2.setStorage(room2Store);
+        room3.setStorage(room3Store);
+        room4.setStorage(room4Store);
+        room5.setStorage(room5Store);
+        room6.setStorage(room6Store);
+        room7.setStorage(room7Store);
+        room8.setStorage(room8Store);
+
+
 
         //set room exits
 
@@ -41,7 +77,9 @@ public class Main {
         //main logic
 
         Room currentLocation = room1;
+
         System.out.println(currentLocation.roomTitle + ": " + currentLocation.roomDesc);
+        System.out.println(getRoomItems(currentLocation));
         System.out.println(getRoomCords(currentLocation));
 
         // scanner stuff
@@ -57,8 +95,10 @@ public class Main {
             }
             catch (NullPointerException ex){
                 System.out.println("That is not a valid direction!");
+                input = getUserDirection(currentLocation);
             }
             System.out.println(currentLocation.roomTitle + ": " + currentLocation.roomDesc);
+            System.out.println(getRoomItems(currentLocation));
             System.out.println(getRoomCords(currentLocation));
         }
 
@@ -76,29 +116,46 @@ public class Main {
         return input;
     }
 
+    public static String getRoomItems(Room currentLocation){
+        ArrayList<Item> items = currentLocation.storage;
+        String y = "In the room you see: ";
+        String printItems = "In the room you see: ";
+        for(Item item: items){
+            printItems = printItems +item + ",";
+        }
+
+        String combo = y + printItems;
+        return printItems;
+
+
+    }
+
 
     //Room Movement Function
 
-    public static Room RoomMove(Room currentLocation, String newLocation) throws NullPointerException {
-        if (newLocation.equals("up")) {
-            currentLocation = currentLocation.upExit;
+    public static Room RoomMove(Room currentLocation, String newLocation)   {
 
-        } else if (newLocation.equals("down")) {
-            currentLocation = currentLocation.downExit;
+            if (newLocation.equals("up")) {
+                currentLocation = currentLocation.upExit;
 
-        } else if (newLocation.equals("left")) {
-            currentLocation = currentLocation.leftExit;
+            } else if (newLocation.equals("down")) {
+                currentLocation = currentLocation.downExit;
 
-        } else if (newLocation.equals("right")) {
-            currentLocation = currentLocation.rightExit;
+            } else if (newLocation.equals("left")) {
+                currentLocation = currentLocation.leftExit;
 
-        } else if (newLocation.equals("forward")) {
-            currentLocation = currentLocation.forExit;
+            } else if (newLocation.equals("right")) {
+                currentLocation = currentLocation.rightExit;
 
-        } else if (newLocation.equals("back")) {
-            currentLocation = currentLocation.backExit;
+            } else if (newLocation.equals("forward")) {
+                currentLocation = currentLocation.forExit;
 
-        } return currentLocation;
+            } else if (newLocation.equals("back")) {
+                currentLocation = currentLocation.backExit;
+            }
+
+
+        return currentLocation;
 
     }
 
