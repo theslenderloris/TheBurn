@@ -20,20 +20,21 @@ public class Main {
         Item oxygenBottle = new Item("Oxygen Bottle", "got some air in there");
         Item helmet = new Item("Space Helmet", "its a helmet");
 
-        ArrayList<Item> room1Store = new ArrayList<Item>();
-        ArrayList<Item> room2Store = new ArrayList<Item>();
-        ArrayList<Item> room3Store = new ArrayList<Item>();
-        ArrayList<Item> room4Store = new ArrayList<Item>();
-        ArrayList<Item> room5Store = new ArrayList<Item>();
-        ArrayList<Item> room6Store = new ArrayList<Item>();
-        ArrayList<Item> room7Store = new ArrayList<Item>();
-        ArrayList<Item> room8Store = new ArrayList<Item>();
+        ArrayList<Item> room1Store = new ArrayList<>();
+        ArrayList<Item> room2Store = new ArrayList<>();
+        ArrayList<Item> room3Store = new ArrayList<>();
+        ArrayList<Item> room4Store = new ArrayList<>();
+        ArrayList<Item> room5Store = new ArrayList<>();
+        ArrayList<Item> room6Store = new ArrayList<>();
+        ArrayList<Item> room7Store = new ArrayList<>();
+        ArrayList<Item> room8Store = new ArrayList<>();
 
 
         // assign items to rooms
 
 
         room1Store.add(oxygenBottle);
+        room1Store.add(helmet);
         room5Store.add(helmet);
 
 
@@ -76,27 +77,34 @@ public class Main {
 
         //main logic
 
+        //starting room
+
         Room currentLocation = room1;
 
         System.out.println(currentLocation.roomTitle + ": " + currentLocation.roomDesc);
         System.out.println(getRoomItems(currentLocation));
         System.out.println(getRoomCords(currentLocation));
 
-        // scanner stuff
-        Scanner useInput = new Scanner(System.in);
 
         String input = null;
 
-        while (input != "exit") {
-            input = getUserDirection(currentLocation);
+        //main game loop (so far)
 
-            try {
-                currentLocation = RoomMove(currentLocation, input);
-            }
-            catch (NullPointerException ex){
-                System.out.println("That is not a valid direction!");
+        while (input != "exit") {
+
+            boolean isValid = false;
+
+            while (isValid == false) {
                 input = getUserDirection(currentLocation);
+                isValid = RoomMoveHelper(currentLocation,input);
+                if (isValid == false){
+                    System.out.println("Invalid location, Try Again");
+                }
+
             }
+
+            currentLocation = RoomMove(currentLocation, input);
+
             System.out.println(currentLocation.roomTitle + ": " + currentLocation.roomDesc);
             System.out.println(getRoomItems(currentLocation));
             System.out.println(getRoomCords(currentLocation));
@@ -118,14 +126,24 @@ public class Main {
 
     public static String getRoomItems(Room currentLocation){
         ArrayList<Item> items = currentLocation.storage;
-        String y = "In the room you see: ";
         String printItems = "In the room you see: ";
-        for(Item item: items){
-            printItems = printItems +item + ",";
-        }
 
-        String combo = y + printItems;
-        return printItems;
+        Iterator<Item> itemIterator = items.iterator();
+
+       if (items.size() > 0) {
+           do {
+               printItems = printItems + itemIterator.next() + ", ";
+
+           } while (itemIterator.hasNext());
+
+
+           return printItems;
+
+       }else {
+
+           printItems = printItems + "Nothing";
+           return printItems;
+       }
 
 
     }
@@ -158,6 +176,62 @@ public class Main {
         return currentLocation;
 
     }
+
+    public static boolean RoomMoveHelper(Room currentLocation, String newLocation) {
+
+        boolean isExit = false;
+
+        if (newLocation.equals("up")) {
+            if(currentLocation.upExit == null){
+                isExit = false;
+            }else{
+                isExit = true;
+            }
+
+        } else if (newLocation.equals("down")) {
+            if(currentLocation.downExit == null){
+                isExit = false;
+            }else{
+                isExit = true;
+            }
+
+        } else if (newLocation.equals("left")) {
+            if(currentLocation.leftExit == null){
+                isExit = false;
+            }else{
+                isExit = true;
+            }
+
+        } else if (newLocation.equals("right")) {
+            if(currentLocation.rightExit == null){
+                isExit = false;
+            }else{
+                isExit = true;
+            }
+
+        } else if (newLocation.equals("forward")) {
+            if(currentLocation.forExit == null){
+                isExit = false;
+            }else{
+                isExit = true;
+            }
+
+        } else if (newLocation.equals("back")) {
+            if(currentLocation.backExit == null){
+                isExit = false;
+            }else{
+                isExit = true;
+            }
+
+        }
+
+        return isExit;
+
+
+
+    }
+
+
 
     public static String getRoomCords(Room currentLocation){
         String cords = "";
